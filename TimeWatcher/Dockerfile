@@ -13,6 +13,9 @@ EXPOSE 8080
 FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+COPY ["Directory.Packages.props", "."]
+COPY ["Directory.Build.props", "."]
+COPY ["Directory.Build.targets", "."]
 COPY ["TimeWatcher/TimeWatcher.csproj", "TimeWatcher/"]
 COPY ["TimeWatcher.Data/TimeWatcher.Data.csproj", "TimeWatcher.Data/"]
 COPY ["TimeWatcher.ServiceDefaults/TimeWatcher.ServiceDefaults.csproj", "TimeWatcher.ServiceDefaults/"]
