@@ -15,6 +15,7 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["TimeWatcher/TimeWatcher.csproj", "TimeWatcher/"]
 COPY ["TimeWatcher.Data/TimeWatcher.Data.csproj", "TimeWatcher.Data/"]
+COPY ["TimeWatcher.ServiceDefaults/TimeWatcher.ServiceDefaults.csproj", "TimeWatcher.ServiceDefaults/"]
 RUN dotnet restore "./TimeWatcher/TimeWatcher.csproj"
 COPY . .
 WORKDIR "/src/TimeWatcher"
