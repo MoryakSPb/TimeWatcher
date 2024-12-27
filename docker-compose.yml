@@ -1,0 +1,32 @@
+volumes:
+  timewatcher_data:
+    driver: local
+
+services:
+  timewatcher:
+    container_name: "TimeWatcher.App"
+    image: ghcr.io/MoryakSPb/TimeWatcher:v1.0.0
+    build:
+      context: .
+      dockerfile: TimeWatcher/Dockerfile
+    healthcheck:
+      test: curl -f http://localhost:8080/health || exit 1 
+      interval: 30s
+      timeout: 10s
+    env_file:
+      - path: time_wtacher.env
+        required: true
+    environment:
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES: "true"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES: "true"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY: "in_memory"
+      ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
+      HTTP_PORTS: "8080"
+      OTEL_SERVICE_NAME: "TimeWatcher"
+    volumes:
+    - "timewatcher_data:./data"
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 150m
